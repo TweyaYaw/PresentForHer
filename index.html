@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bouquet For You My Love :D</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #ffe4ec;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transition: opacity 1s ease;
+    }
+
+    #landingPage {
+      background-color: #ffe4ec;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .button {
+      background-color: #ffb6c1;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 30px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, background-color 0.3s ease;
+      margin-top: 30px;
+    }
+
+    .button:hover {
+      background-color: #ff6fa0;
+      transform: scale(1.05);
+    }
+
+    .upload-box {
+      border: 2px dashed #ff99b5;
+      border-radius: 16px;
+      width: 250px;
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff0f6;
+      overflow: hidden;
+    }
+
+    .upload-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    #bouquetPage {
+      background: #fff0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      width: 400px;
+      height: 500px;
+    }
+
+    .wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ffd6e8;
+      border: 4px solid #ffb6c1;
+      border-radius: 0 0 40% 40% / 0 0 100% 100%;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      clip-path: path("M 0 80 Q 200 0 400 80 L 400 500 Q 200 500 0 500 Z");
+    }
+
+    .above-bouquet {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      pointer-events: none;
+    }
+
+    .bouquet {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 20px;
+    }
+
+    .flower {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: transparent;
+      background-image: url("https://i.imgur.com/XNw5bnd.png");
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transform: scale(0);
+      animation: bloom 0.5s forwards;
+    }
+
+    .bow {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 60px;
+      background: linear-gradient(135deg, #d10045, #ff416c);
+      border-radius: 50% 50% 0 0;
+      clip-path: polygon(0% 100%, 0 30%, 30% 0%, 50% 30%, 70% 0%, 100% 30%, 100% 100%);
+    }
+
+    @keyframes bloom {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatHeart 4s ease-in-out infinite;
+      opacity: 0;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-60px) scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-120px) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    .landing-heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatLandingHeart 6s ease-in-out infinite;
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes floatLandingHeart {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-100px) scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-200px) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    .cutscene-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffe4ec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 2s ease;
+    }
+
+    .cutscene-text {
+      font-size: 28px;
+      color: #c2185b;
+      text-align: center;
+      max-width: 80%;
+      opacity: 0;
+      animation: showText 2s ease forwards;
+      font-weight: bold;
+    }
+
+    @keyframes showText {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Landing Page -->
+  <div id="landingPage" class="page">
+    <h1 style="font-size: 28px; color: #d63384; margin-bottom: 20px;">
+      For my beloved love, Naylaa 🫶🤗
+    </h1>
+    <div class="upload-box">
+      <img src="https://i.imgur.com/4doSO9d.gif" alt="Image" />
+    </div>
+    <button class="button" onclick="revealBouquet()">there's something 🫣</button>
+  </div>
+
+  <!-- Cutscene Overlay -->
+  <div id="cutscene" class="cutscene-overlay">
+    <div id="cutsceneText" class="cutscene-text">I picked every flower for you :> 🌸</div>
+  </div>
+
+  <!-- Bouquet Page -->
+  <div id="bouquetPage" class="page">
+    <div class="container">
+      <div class="above-bouquet" id="aboveBouquet"></div>
+      <div class="wrapper">
+        <div class="bouquet" id="bouquet"></div>
+        <div class="bow"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function revealBouquet() {
+      const landing = document.getElementById('landingPage');
+      const bouquet = document.getElementById('bouquetPage');
+      const cutscene = document.getElementById('cutscene');
+      const cutsceneText = document.getElementById('cutsceneText');
+
+      cutscene.style.pointerEvents = 'auto';
+      cutscene.style.opacity = '1';
+
+      setTimeout(() => {
+        cutsceneText.style.opacity = '1';
+      }, 1000);
+
+      setTimeout(() => {
+        cutscene.style.opacity = '0';
+        cutscene.style.pointerEvents = 'none';
+        landing.style.opacity = '0';
+        bouquet.style.opacity = '1';
+        bouquet.style.pointerEvents = 'auto';
+      }, 4500);
+
+      setTimeout(() => {
+        landing.style.display = 'none';
+        initBouquet();
+      }, 5500);
+    }
+
+    function initBouquet() {
+      const bouquet = document.getElementById('bouquet');
+      const aboveBouquet = document.getElementById('aboveBouquet');
+
+      function getQuadraticBezierXY(t, p0, p1, p2) {
+        const x = Math.pow(1 - t, 2) * p0.x + 2 * (1 - t) * t * p1.x + Math.pow(t, 2) * p2.x;
+        const y = Math.pow(1 - t, 2) * p0.y + 2 * (1 - t) * t * p1.y + Math.pow(t, 2) * p2.y;
+        return { x, y };
+      }
+
+      const p0 = { x: 0, y: 80 };
+      const p1 = { x: 200, y: 0 };
+      const p2 = { x: 400, y: 80 };
+
+      const flowerLayers = 5;
+      const layerOffset = 14;
+      const flowersPerLayer = 22;
+      let delayOffset = 0;
+
+      for (let layer = 0; layer < flowerLayers; layer++) {
+        const yOffset = -layer * layerOffset;
+        for (let i = 0; i <= flowersPerLayer; i++) {
+          const t = i / flowersPerLayer;
+          const { x, y } = getQuadraticBezierXY(t, p0, p1, p2);
+          const flower = document.createElement('div');
+          flower.className = 'flower';
+          flower.style.left = `${x - 15}px`;
+          flower.style.top = `${y - 15 + yOffset}px`;
+          flower.style.animationDelay = `${delayOffset}ms`;
+          aboveBouquet.appendChild(flower);
+          delayOffset += 50;
+        }
+      }
+
+      const centerX = 180;
+      const centerY = 100;
+      const layers = [
+        { count: 3, radius: 30 },
+        { count: 5, radius: 50 },
+        { count: 8, radius: 70 },
+        { count: 10, radius: 90 },
+        { count: 12, radius: 110 },
+        { count: 14, radius: 120 }
+      ];
+
+      let count = 0;
+
+      layers.forEach(layer => {
+        for (let i = 0; i < layer.count; i++) {
+          const angle = (2 * Math.PI / layer.count) * i;
+          const x = centerX + layer.radius * Math.cos(angle);
+          const y = centerY + layer.radius * Math.sin(angle);
+          const delay = count * 120;
+          const flower = document.createElement('div');
+          flower.className = 'flower';
+          flower.style.left = `${x}px`;
+          flower.style.top = `${y}px`;
+          flower.style.animationDelay = `${delay}ms`;
+          bouquet.appendChild(flower);
+          count++;
+        }
+      });
+
+      const heartEmojis = ['❤️', '💖', '💗', '💕', '💞'];
+
+      function createFloatingHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.bottom = '0px';
+        heart.style.animationDuration = `${3 + Math.random() * 2}s`;
+        heart.style.fontSize = `${20 + Math.random() * 10}px`;
+        document.querySelector('.wrapper').appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }
+
+      setInterval(createFloatingHeart, 600);
+    }
+
+    // Floating hearts on landing
+    const landingHearts = ['💖', '💗', '💕', '💞', '❤️'];
+
+    function createLandingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'landing-heart';
+      heart.textContent = landingHearts[Math.floor(Math.random() * landingHearts.length)];
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.top = `${Math.random() * 100}%`;
+      heart.style.animationDuration = `${3 + Math.random() * 3}s`;
+      heart.style.fontSize = `${18 + Math.random() * 12}px`;
+      document.getElementById('landingPage').appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createLandingHeart, 500);
+  </script>
+
+</body>
+</html>
